@@ -135,7 +135,7 @@ PrefabInstance:
     - target: {fileID: 94707280431561153, guid: d93b7e04b48cd7b4fa849695dba2ce9c,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4901302987478223809, guid: d93b7e04b48cd7b4fa849695dba2ce9c,
         type: 3}
@@ -689,8 +689,18 @@ PrefabInstance:
       objectReference: {fileID: 690967860}
     - target: {fileID: 7711925364793599746, guid: a622b24383b66c94bad50993ec604085,
         type: 3}
+      propertyPath: rayColorHover.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7711925364793599746, guid: a622b24383b66c94bad50993ec604085,
+        type: 3}
       propertyPath: layerMask.m_Bits
       value: 64
+      objectReference: {fileID: 0}
+    - target: {fileID: 7711925364793599746, guid: a622b24383b66c94bad50993ec604085,
+        type: 3}
+      propertyPath: rayColorDefault.a
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7770146387906474016, guid: a622b24383b66c94bad50993ec604085,
         type: 3}
@@ -751,6 +761,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: RightEyeInteractor
+      objectReference: {fileID: 0}
+    - target: {fileID: 7770146387906474044, guid: a622b24383b66c94bad50993ec604085,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7770146388048134741, guid: a622b24383b66c94bad50993ec604085,
         type: 3}
@@ -984,7 +999,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!108 &705507994
 Light:
   m_ObjectHideFlags: 0
