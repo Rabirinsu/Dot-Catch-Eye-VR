@@ -192,6 +192,16 @@ PrefabInstance:
       propertyPath: expandMixedRealityCapturePropertySheet
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4919022601411988887, guid: d93b7e04b48cd7b4fa849695dba2ce9c,
+        type: 3}
+      propertyPath: requestBodyTrackingPermissionOnStartup
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4919022601411988887, guid: d93b7e04b48cd7b4fa849695dba2ce9c,
+        type: 3}
+      propertyPath: requestFaceTrackingPermissionOnStartup
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4919022601423383439, guid: d93b7e04b48cd7b4fa849695dba2ce9c,
         type: 3}
       propertyPath: m_ClearFlags
@@ -765,8 +775,13 @@ PrefabInstance:
     - target: {fileID: 7770146387906474044, guid: a622b24383b66c94bad50993ec604085,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7770146387906474046, guid: a622b24383b66c94bad50993ec604085,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5196470282bc7c34bb12d13caa9bccaa, type: 2}
     - target: {fileID: 7770146388048134741, guid: a622b24383b66c94bad50993ec604085,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1573,6 +1588,12 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7770146387906474046, guid: a622b24383b66c94bad50993ec604085,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 4817542210919379372, guid: f1bc7ebd567dd466189a6f6ae409c85c,
+        type: 3}
     - target: {fileID: 7770146388048134741, guid: a622b24383b66c94bad50993ec604085,
         type: 3}
       propertyPath: m_LocalPosition.x

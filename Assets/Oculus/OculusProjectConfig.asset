@@ -21,9 +21,9 @@ MonoBehaviour:
   sharedAnchorSupport: 0
   renderModelSupport: 0
   trackedKeyboardSupport: 0
-  bodyTrackingSupport: 0
-  faceTrackingSupport: 0
-  eyeTrackingSupport: 1
+  bodyTrackingSupport: 1
+  faceTrackingSupport: 1
+  eyeTrackingSupport: 2
   virtualKeyboardSupport: 0
   disableBackups: 1
   enableNSCConfig: 1
@@ -33,5 +33,5 @@ MonoBehaviour:
   requiresSystemKeyboard: 0
   experimentalFeaturesEnabled: 0
   insightPassthroughEnabled: 0
-  _insightPassthroughSupport: 0
+  _insightPassthroughSupport: 1
   systemSplashScreen: {fileID: 0}
