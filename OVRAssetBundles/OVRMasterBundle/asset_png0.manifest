@@ -1,0 +1,19 @@
+ManifestFileVersion: 0
+CRC: 2995412156
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 52b004f13a7eda41a58abce87c4e08fe
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: b0363f7088f9761414f730641bf9a24b
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/Oculus/VR/Textures/cube_texture.png
+- Assets/Oculus/Interaction/Runtime/Textures/fingers_glow_mask.png
+- Assets/Oculus/VR/Textures/MetaQuestTouchPro/batteryIndicatorTexture32.png
+Dependencies: []

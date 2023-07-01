@@ -777,6 +777,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7770146387906474045, guid: a622b24383b66c94bad50993ec604085,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7770146387906474046, guid: a622b24383b66c94bad50993ec604085,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -1582,6 +1587,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: LeftEyeInteractor
+      objectReference: {fileID: 0}
+    - target: {fileID: 7770146387906474045, guid: a622b24383b66c94bad50993ec604085,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7770146387906474046, guid: a622b24383b66c94bad50993ec604085,
         type: 3}

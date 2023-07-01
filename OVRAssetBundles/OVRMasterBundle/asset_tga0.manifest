@@ -1,0 +1,17 @@
+ManifestFileVersion: 0
+CRC: 438291409
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 04799c2f654f00369abd3f68cd384e01
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: b0363f7088f9761414f730641bf9a24b
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/Oculus/SampleFramework/Core/TouchControllers/Materials/Textures/R_controller_DIF.TGA
+Dependencies: []
