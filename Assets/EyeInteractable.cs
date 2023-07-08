@@ -23,7 +23,7 @@ public class EyeInteractable : MonoBehaviour
 
     void Update()
     {
-       if(IsHovered)
+      /* if(IsHovered)
         {
             meshRenderer.material = OnHoverActiveMaterial;
             OnObjectHover?.Invoke(gameObject);
@@ -32,6 +32,12 @@ public class EyeInteractable : MonoBehaviour
         {
             meshRenderer.material = OnHoverInactiveMaterial;
 
-        }
+        }*/
+    }
+
+    public void Interacted()
+    {
+        meshRenderer.material = OnHoverActiveMaterial;
+        OnObjectHover?.Invoke(gameObject);
     }
 }
