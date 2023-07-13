@@ -12,8 +12,8 @@ public class Line : ScriptableObject
     [SerializeField] private Vector3 spawnRotation;
      public int sequence;
 
-    public void Initialize()
+    public GameObject Initialize()
     {
-        Instantiate(prefab, spawnPoint, Quaternion.Euler(spawnRotation));
+       return Instantiate(prefab, spawnPoint, Quaternion.Euler(spawnRotation));
     }
 }

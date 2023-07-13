@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8147d64e30b3b6b49b8917d7e12422b0, type: 3}
-  m_Name: Dot
+  m_Name: RegularDot
   m_EditorClassIdentifier: 
   visibleDuration: 2
   maxspawnDelay: 3

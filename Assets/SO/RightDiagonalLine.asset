@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bdf97f25dd457ce408cc637ff58a94c0, type: 3}
-  m_Name: LinearLine
+  m_Name: RightDiagonalLine
   m_EditorClassIdentifier: 
-  prefab: {fileID: 8496770652664043436, guid: 77d4925492c1441498024b9f12c6b96f, type: 3}
+  prefab: {fileID: 5985604535813715790, guid: 0b8692b2bbf5eef499133c0c6e4519e1, type: 3}
   spawnPoint: {x: 0, y: 0, z: 2}
-  spawnRotation: {x: 0, y: 0, z: 0}
-  sequence: 5
+  spawnRotation: {x: 0, y: 0, z: 25.9}
+  sequence: 0

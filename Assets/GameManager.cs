@@ -1,20 +1,34 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager instance;
-    [SerializeField] private Dot dot;
-    [SerializeField] private Line line;
+    public static GameManager instance; 
+    public  GameObject currentLine; 
+    [SerializeField] private Dot regularDot;
+    [SerializeField] private Dot randomDot;
+    [SerializeField]  private Dot currentDot;
+    [SerializeField] private List<Line> Lines;
+    [SerializeField] private int currentlineID;
     [SerializeField] private LineController linecontroller;
     private float dotspawnDelay;
     public static Transform currentspawnPoint;
     private int spawnCount;
-    private int sequenceCount;
+    [SerializeField] private int spawnFrequency; // TODO Get this value from lines 
+     private int sequenceCount;
     private int lineSequence;
     private int linepointsCount;
     private bool isReversed;
+    [Header("EVENTS ")]
+    [SerializeField] private GameEvent sequencecompletedEvent;
+    [SerializeField] private GameEvent sessioncompletedEvent;
+    
+    public enum Session{Regular, Random}
+
+    public Session currentSession;
+    
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -32,8 +46,16 @@ public class GameManager : MonoBehaviour
 
     private void InitializeGame()
     {
-        line.Initialize();
-        SetSpawnDelay();
+            SetDot();
+           currentLine = Lines[currentlineID].Initialize();
+            SetSpawnDelay();
+    }
+
+    private void SetDot()
+    {
+        if (currentSession == Session.Random)
+            currentDot = randomDot;
+        else currentDot = regularDot;
     }
 
     public void SetLineController(LineController _linecontroller)
@@ -45,8 +67,22 @@ public class GameManager : MonoBehaviour
 
     public void LateUpdate()
     {
+
+        if (currentDot == regularDot)
+        {
+            RegularDotSequence();
+        }
+        else
+        {
+            RandomDotSequence();
+        } 
+    }
+
+    private void RegularDotSequence()
+    {
         if(sequenceCount < lineSequence)
         {
+
             if (!isReversed)
             {
                 if (spawnCount < linepointsCount && linecontroller)
@@ -59,7 +95,7 @@ public class GameManager : MonoBehaviour
                 }
                 else if (spawnCount >= linepointsCount)
                 {
-                    SequenceCompleted();
+                    sequencecompletedEvent?.Raise();
                 }
             }
             else
@@ -74,32 +110,62 @@ public class GameManager : MonoBehaviour
                 }
                 else if (spawnCount < 0)
                 {
-                    SequenceCompleted();
+                    sequencecompletedEvent?.Raise();
                 }
             }
         }
+         // TODO DESTROY CURRENT LINE SPAWN NEXT LINE RESET SPAWNCOUNT 
+        else sessioncompletedEvent?.Raise();
     }
-
-    private void SequenceCompleted()
+    private void RandomDotSequence()
+    {
+                if (spawnCount < spawnFrequency && linecontroller)
+                {
+                    dotspawnDelay -= Time.deltaTime;
+                    if (dotspawnDelay < 0)
+                    {
+                        SpawnDot();
+                    }
+                }
+                else if (spawnCount >= spawnFrequency)
+                {
+                    // RANDOM SEQUENCE COMPLETED
+                    // TODO Destroy current line & Spawn another line
+                }
+    }
+    
+    public void SwitchReverse()
     {
         sequenceCount++;
-        SwitchReverse();
-        UpdateSpawnCounts();
-    }
-    private void SwitchReverse()
-    {
         if (isReversed)
             isReversed = false;
         else isReversed = true;
     }
 
+    public void SetNextLine()
+    {
+        sequenceCount = 0;
+        Destroy(currentLine);
+        currentlineID++;
+        Lines[currentlineID].Initialize();
+        SetSpawnDelay();
+        
+    }
     private void SpawnDot()
     {
-        dot.Spawn(GetSpawnPoint());
+        if (currentDot == regularDot)
+        {
+            currentDot.Spawn(GetSpawnPoint());
+        }
+        else
+        {
+            currentDot.Spawn(GetRandomSpawnPoint());
+        }
         SetSpawnDelay();
         UpdateSpawnCounts();
     }
-    private void UpdateSpawnCounts()
+    
+    public void UpdateSpawnCounts()
     {
         if (isReversed)
             spawnCount--;
@@ -108,16 +174,16 @@ public class GameManager : MonoBehaviour
 
     private void SetSpawnDelay()
     {
-        dotspawnDelay = dot.GenerateSpawnDelay();
+        dotspawnDelay = regularDot.GenerateSpawnDelay();
     }
 
     public Transform GetSpawnPoint()
     {
        return linecontroller.points[spawnCount];
-    }
+    } 
 
     public Transform GetRandomSpawnPoint()
     {
-        return null;
+        return linecontroller.points[Random.Range(0,linecontroller.points.Count)];
     }
 }
