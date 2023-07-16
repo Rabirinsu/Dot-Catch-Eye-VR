@@ -20,7 +20,7 @@ public class EyeInteractable : MonoBehaviour
     private MeshRenderer meshRenderer;
 
 
-
+    [SerializeField] private BoxCollider _collider;
     void Update()
     {
       /* if(IsHovered)
@@ -38,6 +38,8 @@ public class EyeInteractable : MonoBehaviour
     public void Interacted()
     {
         meshRenderer.material = OnHoverActiveMaterial;
+        this.enabled = false;
+        _collider.enabled = false;
         OnObjectHover?.Invoke(gameObject);
     }
 }

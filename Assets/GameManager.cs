@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
 {
@@ -9,11 +11,12 @@ public class GameManager : MonoBehaviour
     public  GameObject currentLine; 
     [SerializeField] private Dot regularDot;
     [SerializeField] private Dot randomDot;
-    [SerializeField]  private Dot currentDot;
+    [HideInInspector]public Dot currentDot;
     [SerializeField] private List<Line> Lines;
     [SerializeField] private int currentlineID;
     [SerializeField] private LineController linecontroller;
     private float dotspawnDelay;
+    public float sessiontransitDelay;
     public static Transform currentspawnPoint;
     private int spawnCount;
     [SerializeField] private int spawnFrequency; // TODO Get this value from lines 
@@ -21,15 +24,21 @@ public class GameManager : MonoBehaviour
     private int lineSequence;
     private int linepointsCount;
     private bool isReversed;
+    [FormerlySerializedAs("sequencecompletedEvent")]
     [Header("EVENTS ")]
-    [SerializeField] private GameEvent sequencecompletedEvent;
+    [SerializeField] private GameEvent sequencecompletedEvent_regular;
+    [SerializeField] private GameEvent sequencecompletedEvent_random;
     [SerializeField] private GameEvent sessioncompletedEvent;
+    [SerializeField] private GameEvent sessionexpiredEvent;
     
+    public enum Phase {None, OnSequence ,sequenceCompleted, sessionExpired,}
+
+    public Phase currentPhase;
     public enum Session{Regular, Random}
 
     public Session currentSession;
     
-    private void Awake()
+    private void OnEnable()
     {
         if (instance != null && instance != this)
         {
@@ -39,16 +48,27 @@ public class GameManager : MonoBehaviour
         {
             instance = this;
         }
-
+        
         Application.targetFrameRate = 80;
         InitializeGame();
     }
 
+    public void SetRandomSession()
+    {
+        currentSession = Session.Random;
+    }  
+    public void SetRegularSession()
+    {
+        currentSession = Session.Regular;
+    }
+    
     private void InitializeGame()
     {
-            SetDot();
-           currentLine = Lines[currentlineID].Initialize();
+         
+            currentLine = Lines[currentlineID].Initialize();
             SetSpawnDelay();
+            currentPhase =  Phase.OnSequence;
+            SetDot();
     }
 
     private void SetDot()
@@ -67,15 +87,18 @@ public class GameManager : MonoBehaviour
 
     public void LateUpdate()
     {
-
-        if (currentDot == regularDot)
+        if (currentPhase == Phase.OnSequence)
         {
-            RegularDotSequence();
+            
+            if (currentDot == regularDot)
+            {
+                RegularDotSequence();
+            }
+            else
+            {
+                RandomDotSequence();
+            } 
         }
-        else
-        {
-            RandomDotSequence();
-        } 
     }
 
     private void RegularDotSequence()
@@ -95,7 +118,7 @@ public class GameManager : MonoBehaviour
                 }
                 else if (spawnCount >= linepointsCount)
                 {
-                    sequencecompletedEvent?.Raise();
+                    sequencecompletedEvent_regular?.Raise();
                 }
             }
             else
@@ -110,7 +133,7 @@ public class GameManager : MonoBehaviour
                 }
                 else if (spawnCount < 0)
                 {
-                    sequencecompletedEvent?.Raise();
+                    sequencecompletedEvent_regular?.Raise();
                 }
             }
         }
@@ -129,8 +152,7 @@ public class GameManager : MonoBehaviour
                 }
                 else if (spawnCount >= spawnFrequency)
                 {
-                    // RANDOM SEQUENCE COMPLETED
-                    // TODO Destroy current line & Spawn another line
+                    sessioncompletedEvent?.Raise();
                 }
     }
     
@@ -144,13 +166,35 @@ public class GameManager : MonoBehaviour
 
     public void SetNextLine()
     {
-        sequenceCount = 0;
-        Destroy(currentLine);
-        currentlineID++;
-        Lines[currentlineID].Initialize();
-        SetSpawnDelay();
-        
+        currentPhase =  Phase.sequenceCompleted;
+        StartCoroutine(NextLineSpawn());
     }
+
+    private IEnumerator NextLineSpawn()
+    {
+    
+        yield return new WaitForSeconds(currentDot.maxspawnDelay);
+        sequenceCount = 0;
+        spawnCount = 0;
+        currentlineID++;
+        Destroy(currentLine);
+        if (currentlineID < Lines.Count)
+        {
+            yield return new WaitForSeconds(sessiontransitDelay);
+            currentLine = Lines[currentlineID].Initialize();
+            SetSpawnDelay();
+            currentPhase =  Phase.OnSequence;
+        }
+        else
+        {
+            this.enabled = false;
+            sessionexpiredEvent?.Raise();
+            currentPhase =  Phase.sessionExpired;
+            yield return null;
+        }
+     
+    }
+    
     private void SpawnDot()
     {
         if (currentDot == regularDot)
@@ -185,5 +229,20 @@ public class GameManager : MonoBehaviour
     public Transform GetRandomSpawnPoint()
     {
         return linecontroller.points[Random.Range(0,linecontroller.points.Count)];
+    }
+
+    public void Reset()
+    {
+        currentlineID = 0;
+        currentPhase =  Phase.None;
+        spawnCount = 0;
+        sequenceCount = 0;
+        isReversed = false;
+        this.enabled = true;
+    }
+
+    public void NextSession()
+    {
+        Reset();
     }
 }

@@ -136,6 +136,7 @@ MonoBehaviour:
   OnHoverInactiveMaterial: {fileID: 2100000, guid: 302477ffe5025c8418b312bcaf88563f,
     type: 2}
   meshRenderer: {fileID: 2208591620314188718}
+  _collider: {fileID: 7709597676509801380}
 --- !u!114 &3107832438079586763
 MonoBehaviour:
   m_ObjectHideFlags: 0

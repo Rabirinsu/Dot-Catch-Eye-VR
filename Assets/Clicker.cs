@@ -3,6 +3,8 @@ public class Clicker : MonoBehaviour
 {
     Camera m_Camera;
     [SerializeField] private LayerMask layermask;
+
+    [Header("EVENTS ")] [SerializeField] private GameEvent clickedDot;
     void Awake()
     {
         m_Camera = Camera.main;
@@ -16,7 +18,7 @@ public class Clicker : MonoBehaviour
             if (Physics.Raycast(ray, out RaycastHit hit, layermask))
             {
                 hit.transform.gameObject.SendMessage("Interacted", SendMessageOptions.DontRequireReceiver);
-                Debug.Log(hit.transform.gameObject.name);
+                clickedDot?.Raise();
             }
         }
     }
