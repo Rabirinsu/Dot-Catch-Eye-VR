@@ -4,7 +4,8 @@ public class Clicker : MonoBehaviour
     Camera m_Camera;
     [SerializeField] private LayerMask layermask;
 
-    [Header("EVENTS ")] [SerializeField] private GameEvent clickedDot;
+    [Header("EVENTS ")]
+    [SerializeField] private GameEvent clickedDot;
     void Awake()
     {
         m_Camera = Camera.main;

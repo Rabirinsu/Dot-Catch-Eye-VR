@@ -7,6 +7,11 @@ using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
 {
+    [Header("INTERACTORS ")] 
+    [SerializeField] private GameObject righteyeInteractor;
+    [SerializeField] private GameObject lefteyeInteractor;
+    private int sesionCount = 1;
+    [Header("CORE ")]
     public static GameManager instance; 
     public  GameObject currentLine; 
     [SerializeField] private Dot regularDot;
@@ -37,7 +42,7 @@ public class GameManager : MonoBehaviour
     public enum Session{Regular, Random}
 
     public Session currentSession;
-    
+
     private void OnEnable()
     {
         if (instance != null && instance != this)
@@ -49,10 +54,9 @@ public class GameManager : MonoBehaviour
             instance = this;
         }
         
-        Application.targetFrameRate = 80;
+        Application.targetFrameRate = 120;
         InitializeGame();
     }
-
     public void SetRandomSession()
     {
         currentSession = Session.Random;
@@ -64,11 +68,12 @@ public class GameManager : MonoBehaviour
     
     private void InitializeGame()
     {
-         
+      
             currentLine = Lines[currentlineID].Initialize();
             SetSpawnDelay();
             currentPhase =  Phase.OnSequence;
             SetDot();
+            UpdateEye();
     }
 
     private void SetDot()
@@ -101,6 +106,24 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void UpdateEye()
+    {
+        switch (sesionCount)
+        {
+            case 1:
+                righteyeInteractor.SetActive(true);
+                lefteyeInteractor.SetActive(false);
+                break; 
+            case 2:
+                righteyeInteractor.SetActive(false);
+                lefteyeInteractor.SetActive(true);
+                break; 
+            case 3:
+                righteyeInteractor.SetActive(true);
+                lefteyeInteractor.SetActive(true);
+                break;
+        }
+    }
     private void RegularDotSequence()
     {
         if(sequenceCount < lineSequence)
@@ -244,5 +267,7 @@ public class GameManager : MonoBehaviour
     public void NextSession()
     {
         Reset();
+        sesionCount++;
+        UpdateEye();
     }
 }

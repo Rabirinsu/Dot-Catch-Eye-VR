@@ -21,18 +21,21 @@ public class EyeInteractable : MonoBehaviour
 
 
     [SerializeField] private BoxCollider _collider;
+    [SerializeField] private GameEvent clickedDot;
     void Update()
     {
-      /* if(IsHovered)
+       if(IsHovered)
         {
             meshRenderer.material = OnHoverActiveMaterial;
             OnObjectHover?.Invoke(gameObject);
+              Interacted();
+            clickedDot?.Raise();
         }
         else
         {
             meshRenderer.material = OnHoverInactiveMaterial;
 
-        }*/
+        }
     }
 
     public void Interacted()
@@ -40,6 +43,7 @@ public class EyeInteractable : MonoBehaviour
         meshRenderer.material = OnHoverActiveMaterial;
         this.enabled = false;
         _collider.enabled = false;
-        OnObjectHover?.Invoke(gameObject);
+        OnObjectHover?.Invoke(gameObject); 
+        Debug.Log("Interacted");
     }
 }

@@ -137,6 +137,7 @@ MonoBehaviour:
     type: 2}
   meshRenderer: {fileID: 2208591620314188718}
   _collider: {fileID: 7709597676509801380}
+  clickedDot: {fileID: 11400000, guid: 8844ea6c0be9c64419f299c24d25551f, type: 2}
 --- !u!114 &3107832438079586763
 MonoBehaviour:
   m_ObjectHideFlags: 0
