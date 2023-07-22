@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
@@ -8,8 +9,9 @@ using Random = UnityEngine.Random;
 public class GameManager : MonoBehaviour
 {
     [Header("INTERACTORS ")] 
-    [SerializeField] private GameObject righteyeInteractor;
-    [SerializeField] private GameObject lefteyeInteractor;
+    [SerializeField] private GameObject rightCamera;
+    [SerializeField] private GameObject leftCamera;
+    [SerializeField] private GameObject centerCamera;
     private int sesionCount = 1;
     [Header("CORE ")]
     public static GameManager instance; 
@@ -42,7 +44,8 @@ public class GameManager : MonoBehaviour
     public enum Session{Regular, Random}
 
     public Session currentSession;
-
+    [SerializeField] private Transform lineParent;
+    [SerializeField] private Camera currentcam;
     private void OnEnable()
     {
         if (instance != null && instance != this)
@@ -53,14 +56,17 @@ public class GameManager : MonoBehaviour
         {
             instance = this;
         }
-        
+
         Application.targetFrameRate = 120;
         InitializeGame();
     }
+
+   
     public void SetRandomSession()
     {
         currentSession = Session.Random;
     }  
+    
     public void SetRegularSession()
     {
         currentSession = Session.Regular;
@@ -69,7 +75,7 @@ public class GameManager : MonoBehaviour
     private void InitializeGame()
     {
       
-            currentLine = Lines[currentlineID].Initialize();
+            currentLine = Lines[currentlineID].Initialize(lineParent);
             SetSpawnDelay();
             currentPhase =  Phase.OnSequence;
             SetDot();
@@ -108,19 +114,22 @@ public class GameManager : MonoBehaviour
 
     public void UpdateEye()
     {
-        switch (sesionCount)
+      switch (sesionCount)
         {
             case 1:
-                righteyeInteractor.SetActive(true);
-                lefteyeInteractor.SetActive(false);
+                rightCamera.SetActive(true);
+                centerCamera.SetActive(false);
+                leftCamera.SetActive(false);
                 break; 
             case 2:
-                righteyeInteractor.SetActive(false);
-                lefteyeInteractor.SetActive(true);
+                rightCamera.SetActive(false);
+                centerCamera.SetActive(false);
+                leftCamera.SetActive(true);
                 break; 
             case 3:
-                righteyeInteractor.SetActive(true);
-                lefteyeInteractor.SetActive(true);
+                rightCamera.SetActive(false);
+                centerCamera.SetActive(true);
+                leftCamera.SetActive(false);
                 break;
         }
     }
@@ -204,7 +213,8 @@ public class GameManager : MonoBehaviour
         if (currentlineID < Lines.Count)
         {
             yield return new WaitForSeconds(sessiontransitDelay);
-            currentLine = Lines[currentlineID].Initialize();
+            currentLine = Lines[currentlineID].Initialize(lineParent);
+           /// currentLine = Lines[currentlineID].Initialize(player);
             SetSpawnDelay();
             currentPhase =  Phase.OnSequence;
         }
@@ -270,4 +280,5 @@ public class GameManager : MonoBehaviour
         sesionCount++;
         UpdateEye();
     }
+    
 }

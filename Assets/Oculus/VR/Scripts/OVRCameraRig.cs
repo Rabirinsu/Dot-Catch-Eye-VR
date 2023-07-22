@@ -160,7 +160,7 @@ public class OVRCameraRig : MonoBehaviour
         Application.onBeforeRender += OnBeforeRenderCallback;
     }
 
-    protected virtual void FixedUpdate()
+  protected virtual void FixedUpdate()
     {
         if (useFixedUpdateForTracking)
             UpdateAnchors(true, true);
@@ -211,9 +211,9 @@ public class OVRCameraRig : MonoBehaviour
 
         trackerAnchor.localRotation = tracker.orientation;
 
-        Quaternion emulatedRotation = Quaternion.Euler(-OVRManager.instance.headPoseRelativeOffsetRotation.x,
+      /*  Quaternion emulatedRotation = Quaternion.Euler(-OVRManager.instance.headPoseRelativeOffsetRotation.x,
             -OVRManager.instance.headPoseRelativeOffsetRotation.y,
-            OVRManager.instance.headPoseRelativeOffsetRotation.z);
+            OVRManager.instance.headPoseRelativeOffsetRotation.z);*/
 
         //Note: in the below code, when using UnityEngine's API, we only update anchor transforms if we have a new, fresh value this frame.
         //If we don't, it could mean that tracking is lost, etc. so the pose should not change in the virtual world.
@@ -221,7 +221,7 @@ public class OVRCameraRig : MonoBehaviour
         //If false is returned for any of these calls, then a new pose is not valid and thus should not be updated.
         if (updateEyeAnchors)
         {
-            if (hmdPresent)
+          /*  if (hmdPresent)
             {
                 Vector3 centerEyePosition = Vector3.zero;
                 Quaternion centerEyeRotation = Quaternion.identity;
@@ -238,9 +238,9 @@ public class OVRCameraRig : MonoBehaviour
             {
                 centerEyeAnchor.localRotation = emulatedRotation;
                 centerEyeAnchor.localPosition = OVRManager.instance.headPoseRelativeOffsetTranslation;
-            }
+            }*/
 
-            if (!hmdPresent || monoscopic)
+        /*    if (!hmdPresent || monoscopic)
             {
                 leftEyeAnchor.localPosition = centerEyeAnchor.localPosition;
                 rightEyeAnchor.localPosition = centerEyeAnchor.localPosition;
@@ -268,7 +268,7 @@ public class OVRCameraRig : MonoBehaviour
                         NodeStatePropertyType.Orientation, OVRPlugin.Node.EyeRight, OVRPlugin.Step.Render,
                         out rightEyeRotation))
                     rightEyeAnchor.localRotation = rightEyeRotation;
-            }
+            }*/
         }
 
         if (updateHandAnchors)

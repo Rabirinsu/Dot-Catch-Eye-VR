@@ -15,4 +15,4 @@ MonoBehaviour:
   prefab: {fileID: 8572992576484867536, guid: 1dc399f830c7e34479f7d322cb1740d7, type: 3}
   spawnPoint: {x: 0, y: 0, z: 2}
   spawnRotation: {x: 0, y: 0, z: -25.9}
-  sequence: 1
+  sequence: 2
