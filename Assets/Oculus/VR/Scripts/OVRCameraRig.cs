@@ -198,7 +198,7 @@ public class OVRCameraRig : MonoBehaviour
         if (_skipUpdate)
         {
             centerEyeAnchor.FromOVRPose(OVRPose.identity, true);
-            leftEyeAnchor.FromOVRPose(OVRPose.identity, true);
+         leftEyeAnchor.FromOVRPose(OVRPose.identity, true);
             rightEyeAnchor.FromOVRPose(OVRPose.identity, true);
 
             return;
@@ -480,7 +480,7 @@ public class OVRCameraRig : MonoBehaviour
             }
         }
 
-        if (disableEyeAnchorCameras)
+     /*   if (disableEyeAnchorCameras)
         {
             _centerEyeCamera.enabled = false;
             _leftEyeCamera.enabled = false;
@@ -499,7 +499,7 @@ public class OVRCameraRig : MonoBehaviour
             _centerEyeCamera.enabled = !usePerEyeCameras;
             _leftEyeCamera.enabled = usePerEyeCameras;
             _rightEyeCamera.enabled = (usePerEyeCameras && (!monoscopic || OVRPlugin.EyeTextureArrayEnabled));
-        }
+        }*/
     }
 
     protected virtual Transform ConfigureAnchor(Transform root, string name)

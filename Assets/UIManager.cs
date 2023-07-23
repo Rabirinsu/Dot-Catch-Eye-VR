@@ -1,9 +1,8 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -14,18 +13,95 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI bestscore_TMP;
     [Header("CORE")]
     [SerializeField] private ScoreManager scoreManager;
-
+    [Header("DROPDOWNS")]
+  
+    [SerializeField] private TMP_Dropdown dotcolorDropdown;
+    [SerializeField] private TMP_Dropdown dotsizeDropdown;
+    [SerializeField] private TMP_Dropdown linecolorDropdown;
+    [SerializeField] private Image dotdropdowniconImage;
+    [SerializeField] private Image linedropdowniconImage;
+    [SerializeField] private GameObject dotPrefab;
+    [SerializeField] private Material dotMaterial;
+    [SerializeField] private Material lineMaterial;
     [Header("CANVAS")]
     [SerializeField] private GameObject sessiontransitCanvas;
     [SerializeField]   private GameObject scoreTableCanvas;
     [SerializeField]   private GameObject sessionexpiredCanvas;
+
+    private void Start()
+    {
+        dotcolorDropdown.onValueChanged.AddListener(OnDotColorDropdownValueChanged);
+        linecolorDropdown.onValueChanged.AddListener(OnLineColorDropdownValueChanged);
+        dotsizeDropdown.onValueChanged.AddListener(OnSizeDropdownValueChanged);
+    }
+
     public void UpdateScore()
     {
         inscore_TMP.text = scoreManager.currentScore.ToString();
         currentscore_TMP.text = scoreManager.currentScore.ToString();
         clickeddots_TMP.text = scoreManager.clickedDots.ToString();
     }
-
+    
+    public void OnDotColorDropdownValueChanged(int index)
+    {
+      
+        switch (index)
+        {
+            case 0:
+                dotdropdowniconImage.color = Color.green;
+                dotMaterial.color = Color.green;
+                break;
+            case 1:
+                dotdropdowniconImage.color = Color.magenta;
+                dotMaterial.color = Color.magenta;
+                break;
+            case 2:
+                dotdropdowniconImage.color = Color.blue;
+                dotMaterial.color = Color.blue;
+                break;
+        }
+    }
+    
+     public void OnSizeDropdownValueChanged(int index)
+    {
+      
+        switch (index)
+        {
+            case 0:
+                  dotPrefab.transform.localScale = new Vector3(.1f, .1f,.1f);
+                break;
+            case 1:
+                dotPrefab.transform.localScale = new Vector3(.15f, .15f,.15f);
+                break;
+            case 2:
+                dotPrefab.transform.localScale = new Vector3(.25f, .25f,.25f);
+                break; 
+            case 3:
+                dotPrefab.transform.localScale = new Vector3(.35f, .35f,.35f);
+                break;
+        }
+    }
+     
+     public void OnLineColorDropdownValueChanged(int index)
+    {
+      
+        switch (index)
+        {
+            case 0:
+                linedropdowniconImage.color = Color.red;
+                lineMaterial.color = Color.red;
+                break;
+            case 1:
+                linedropdowniconImage.color = Color.black;
+                lineMaterial.color = Color.black;
+                break;
+            case 2:
+                linedropdowniconImage.color = Color.cyan;
+                lineMaterial.color = Color.cyan;
+                break;
+        }
+    }
+    
     public void SessionTransition()
     {
         if(GameManager.instance.currentPhase != GameManager.Phase.sessionExpired )

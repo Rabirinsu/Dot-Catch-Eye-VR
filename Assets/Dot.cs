@@ -16,9 +16,9 @@ public class Dot : ScriptableObject
         return Random.Range(visibleDuration, maxspawnDelay);
     }
 
-    public void Spawn(Transform spawnPoint)
+    public GameObject Spawn(Transform spawnPoint)
     {
-        Instantiate(prefab, spawnPoint.position, Quaternion.identity);
+       return Instantiate(prefab, spawnPoint.position, Quaternion.identity);
     }
    
 }

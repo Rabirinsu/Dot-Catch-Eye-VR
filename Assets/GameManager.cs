@@ -8,11 +8,12 @@ using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
 {
+    private GameObject spawnedDot;
     [Header("INTERACTORS ")] 
     [SerializeField] private GameObject rightCamera;
     [SerializeField] private GameObject leftCamera;
     [SerializeField] private GameObject centerCamera;
-    private int sesionCount = 1;
+    [HideInInspector] public int sesionCount = 1;
     [Header("CORE ")]
     public static GameManager instance; 
     public  GameObject currentLine; 
@@ -31,7 +32,6 @@ public class GameManager : MonoBehaviour
     private int lineSequence;
     private int linepointsCount;
     private bool isReversed;
-    [FormerlySerializedAs("sequencecompletedEvent")]
     [Header("EVENTS ")]
     [SerializeField] private GameEvent sequencecompletedEvent_regular;
     [SerializeField] private GameEvent sequencecompletedEvent_random;
@@ -46,6 +46,11 @@ public class GameManager : MonoBehaviour
     public Session currentSession;
     [SerializeField] private Transform lineParent;
     [SerializeField] private Camera currentcam;
+    [SerializeField] private Transform playerTransform;
+    private Vector3 playerlefteyePos = new Vector3(0.43f, 0, -1.817f);
+    private Vector3 playerrighteyePos = new Vector3(-.22f, 0, -1.817f);
+
+    public LayerMask layerMask;
     private void OnEnable()
     {
         if (instance != null && instance != this)
@@ -56,8 +61,7 @@ public class GameManager : MonoBehaviour
         {
             instance = this;
         }
-
-        Application.targetFrameRate = 120;
+         Application.targetFrameRate = 120;
         InitializeGame();
     }
 
@@ -109,22 +113,28 @@ public class GameManager : MonoBehaviour
             {
                 RandomDotSequence();
             } 
+         
         }
     }
 
     public void UpdateEye()
     {
+
       switch (sesionCount)
         {
             case 1:
-                rightCamera.SetActive(true);
+               // rightCamera.SetActive(true);
                 centerCamera.SetActive(false);
-                leftCamera.SetActive(false);
+               layerMask = LayerMask.GetMask($"RightEye");
+               //  leftCamera.SetActive(false);
+                playerTransform.position = playerrighteyePos;
                 break; 
             case 2:
-                rightCamera.SetActive(false);
+              //  rightCamera.SetActive(false);
+                layerMask = LayerMask.GetMask("LeftEye");
                 centerCamera.SetActive(false);
-                leftCamera.SetActive(true);
+               // leftCamera.SetActive(true);
+                playerTransform.position = playerlefteyePos;
                 break; 
             case 3:
                 rightCamera.SetActive(false);
@@ -232,11 +242,11 @@ public class GameManager : MonoBehaviour
     {
         if (currentDot == regularDot)
         {
-            currentDot.Spawn(GetSpawnPoint());
+            spawnedDot = currentDot.Spawn(GetSpawnPoint());
         }
         else
         {
-            currentDot.Spawn(GetRandomSpawnPoint());
+            spawnedDot =  currentDot.Spawn(GetRandomSpawnPoint());
         }
         SetSpawnDelay();
         UpdateSpawnCounts();
