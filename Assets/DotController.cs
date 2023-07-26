@@ -8,7 +8,7 @@ public class DotController : MonoBehaviour
     [SerializeField] private Dot dot;
     private void OnEnable()
     {
-        if(GameManager.instance.sesionCount == 1)
+        if(GameManager.instance.updateeyeID == 1)
         gameObject.layer = LayerMask.NameToLayer($"RightEye");
       else
          gameObject.layer = LayerMask.NameToLayer($"LeftEye");

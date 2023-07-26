@@ -18,6 +18,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_Dropdown dotcolorDropdown;
     [SerializeField] private TMP_Dropdown dotsizeDropdown;
     [SerializeField] private TMP_Dropdown linecolorDropdown;
+    [SerializeField] private TMP_Dropdown sequenceDropdown;
     [SerializeField] private Image dotdropdowniconImage;
     [SerializeField] private Image linedropdowniconImage;
     [SerializeField] private GameObject dotPrefab;
@@ -27,12 +28,13 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject sessiontransitCanvas;
     [SerializeField]   private GameObject scoreTableCanvas;
     [SerializeField]   private GameObject sessionexpiredCanvas;
-
+    [SerializeField] private GameManager gameManager;
     private void Start()
     {
         dotcolorDropdown.onValueChanged.AddListener(OnDotColorDropdownValueChanged);
         linecolorDropdown.onValueChanged.AddListener(OnLineColorDropdownValueChanged);
         dotsizeDropdown.onValueChanged.AddListener(OnSizeDropdownValueChanged);
+        sequenceDropdown.onValueChanged.AddListener(OnSequenceDropdownValueChanged);
     }
 
     public void UpdateScore()
@@ -92,12 +94,33 @@ public class UIManager : MonoBehaviour
                 lineMaterial.color = Color.red;
                 break;
             case 1:
-                linedropdowniconImage.color = Color.black;
-                lineMaterial.color = Color.black;
+                linedropdowniconImage.color = Color.white;
+                lineMaterial.color = Color.white;
                 break;
             case 2:
                 linedropdowniconImage.color = Color.cyan;
                 lineMaterial.color = Color.cyan;
+                break;
+        }
+    } 
+     public void OnSequenceDropdownValueChanged(int index)
+     {
+        switch (index)
+        {
+            case 0:
+                gameManager.spawnFrequency = 2;
+                break;
+            case 1:
+                gameManager.spawnFrequency = 4;
+                break;
+            case 3:
+                gameManager.spawnFrequency = 6;
+                break;     
+            case 4:
+                gameManager.spawnFrequency = 8;
+                break;
+            case 5:
+                gameManager.spawnFrequency = 10;
                 break;
         }
     }

@@ -1,20 +1,23 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Serialization;
+using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
 {
+    
     private GameObject spawnedDot;
     [Header("INTERACTORS ")] 
     [SerializeField] private GameObject rightCamera;
     [SerializeField] private GameObject leftCamera;
     [SerializeField] private GameObject centerCamera;
     [HideInInspector] public int sesionCount = 1;
+
     [Header("CORE ")]
+    [SerializeField]
+    public int updateeyeID = 1;
     public static GameManager instance; 
     public  GameObject currentLine; 
     [SerializeField] private Dot regularDot;
@@ -27,7 +30,7 @@ public class GameManager : MonoBehaviour
     public float sessiontransitDelay;
     public static Transform currentspawnPoint;
     private int spawnCount;
-    [SerializeField] private int spawnFrequency; // TODO Get this value from lines 
+    public int spawnFrequency; // TODO Get this value from lines 
      private int sequenceCount;
     private int lineSequence;
     private int linepointsCount;
@@ -63,6 +66,7 @@ public class GameManager : MonoBehaviour
         }
          Application.targetFrameRate = 120;
         InitializeGame();
+        
     }
 
    
@@ -117,29 +121,40 @@ public class GameManager : MonoBehaviour
         }
     }
 
+   private void IncrementUpdateID()
+    {
+        if (updateeyeID >= 3)
+        {
+            updateeyeID = 1;
+            return;
+        }
+        updateeyeID++;
+    }
+    
     public void UpdateEye()
     {
-
-      switch (sesionCount)
+            IncrementUpdateID();
+         Debug.Log("Update EYE ID " + updateeyeID);
+      switch (updateeyeID)
         {
             case 1:
-               // rightCamera.SetActive(true);
+               rightCamera.SetActive(true);
                 centerCamera.SetActive(false);
-               layerMask = LayerMask.GetMask($"RightEye");
-               //  leftCamera.SetActive(false);
+                layerMask = LayerMask.GetMask($"RightEye");
+                leftCamera.SetActive(true);
                 playerTransform.position = playerrighteyePos;
                 break; 
             case 2:
-              //  rightCamera.SetActive(false);
+               rightCamera.SetActive(true);
                 layerMask = LayerMask.GetMask("LeftEye");
                 centerCamera.SetActive(false);
-               // leftCamera.SetActive(true);
+                leftCamera.SetActive(true);
                 playerTransform.position = playerlefteyePos;
                 break; 
             case 3:
                 rightCamera.SetActive(false);
-                centerCamera.SetActive(true);
                 leftCamera.SetActive(false);
+                centerCamera.SetActive(true);
                 break;
         }
     }
@@ -214,8 +229,8 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator NextLineSpawn()
     {
-    
         yield return new WaitForSeconds(currentDot.maxspawnDelay);
+        UpdateEye();
         sequenceCount = 0;
         spawnCount = 0;
         currentlineID++;
@@ -235,7 +250,6 @@ public class GameManager : MonoBehaviour
             currentPhase =  Phase.sessionExpired;
             yield return null;
         }
-     
     }
     
     private void SpawnDot()
@@ -281,9 +295,17 @@ public class GameManager : MonoBehaviour
         spawnCount = 0;
         sequenceCount = 0;
         isReversed = false;
+    
         this.enabled = true;
     }
 
+    public void RestartGame()
+    {
+        Reset();
+        sesionCount = 1;
+        UpdateEye();
+        SceneManager.LoadScene(0);
+    }
     public void NextSession()
     {
         Reset();
