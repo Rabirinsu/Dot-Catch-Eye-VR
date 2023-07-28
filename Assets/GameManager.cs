@@ -138,23 +138,30 @@ public class GameManager : MonoBehaviour
       switch (updateeyeID)
         {
             case 1:
-               rightCamera.SetActive(true);
+                rightCamera.SetActive(true);
                 centerCamera.SetActive(false);
                 layerMask = LayerMask.GetMask($"RightEye");
                 leftCamera.SetActive(true);
-                playerTransform.position = playerrighteyePos;
+              leftCamera.transform.localPosition = new Vector3(0.66f, 0, 0);
+               rightCamera.transform.localPosition = new Vector3(0f, 0, 0);
+                //playerTransform.position = playerrighteyePos; 
                 break; 
             case 2:
                rightCamera.SetActive(true);
                 layerMask = LayerMask.GetMask("LeftEye");
                 centerCamera.SetActive(false);
                 leftCamera.SetActive(true);
-                playerTransform.position = playerlefteyePos;
+             //  rightCamera.transform.localPosition = new Vector3(-.66f, 0, 0);
+            //   leftCamera.transform.localPosition = new Vector3(0, 0, 0);
+            //    playerTransform.position = playerlefteyePos;
                 break; 
             case 3:
                 rightCamera.SetActive(false);
                 leftCamera.SetActive(false);
                 centerCamera.SetActive(true);
+                rightCamera.transform.localPosition =  Vector3.zero;
+                centerCamera.transform.localPosition = new Vector3(0.32f, 0, 0);
+             //   rightCamera.transform.localPosition = new Vector3(0f, 0, 0);
                 break;
         }
     }
